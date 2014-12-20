@@ -42,6 +42,11 @@ function drawHands(canvas, ctx) {
     for (var i = 0; i < secondHand; i++) {
         drawCircle(ctx, canvas.width - p.r - padding, padding + p.r * (i + 1), p.r, SECOND);
     }
+    if (firstPlayerToMove) {
+        drawCircle(ctx, padding + p.r, canvas.height - padding - p.r, p.r, FIRST);
+    } else {
+        drawCircle(ctx, padding + p.r, canvas.height - padding - p.r, p.r, SECOND);
+    }
 }
 
 function printTable(canvas, ctx) {
