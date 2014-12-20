@@ -66,6 +66,8 @@ function drawCircle(ctx, x, y, radius, c) {
         color = "#222222";
     if (c == BLACK)
         color = "#000000";
+    if (c == LIGHT)
+        color = "#eeeeee";
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fillStyle = color;

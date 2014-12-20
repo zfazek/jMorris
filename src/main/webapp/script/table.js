@@ -2,24 +2,28 @@ var EMPTY = 0;
 var FIRST = 1;
 var SECOND = 2;
 var BLACK = 3;
+var LIGHT = 4;
+var N_HAND = 2;
 
-function initTable() {
+function initTable(deleteHistory) {
     table = [];
-    firstHand = 9;
-    secondHand = 9;
+    if (deleteHistory)
+        moveHistory = [];
+    firstHand = N_HAND;
+    secondHand = N_HAND;
     firstPlayerToMove = true;
     for (var i = 0; i < 24; i++) {
         table[table.length] = EMPTY;
     }
 }
 
-function isLegal(idx) {
-    if (table[idx] != EMPTY)
-        return false;
-    if (firstPlayerToMove && firstHand == 0)
-        return false;
-    if (firstPlayerToMove == false && secondHand == 0)
-        return false;
+function getNofPieces(color) {
+    var n = 0;
+    for (var i = 0; i < 24; i++) {
+        if (table[i] == color)
+            n++;
+    }
+    return n;
 }
 
 function drawPieces(ctx) {
@@ -53,4 +57,13 @@ function printTable(canvas, ctx) {
     drawBoard(canvas, ctx); 
     drawPieces(ctx);
     drawHands(canvas, ctx);
+}
+
+function lightPossiblePositions(ctx, idx) {
+    for (var i = 0; i < 24; i++) {
+        if (table[i] == EMPTY) {
+            var p = coords[i];
+            drawCircle(ctx, p.x, p.y, p.r / 2, LIGHT);
+        }
+    }
 }
