@@ -1,58 +1,61 @@
 function drawBoard(canvas, ctx) {
-    var width = canvas.width;
+    var X_OFFSET = 100;
+    var Y_OFFSET = 0;
+    var width = canvas.width - 2 * X_OFFSET;
     var LWIDTH = 2;
     var GAP = 60;
-    var OFFSET = 25;
+    var PADDING = 25;
     var RADIUS = 3;
     var PIECE_RADIUS = GAP / 3;
 
-    fillCoords(width, OFFSET, GAP, PIECE_RADIUS);
+    ctx.clearRect (0, 0, canvas.width, canvas.height);
+    fillCoords(width, PADDING, GAP, X_OFFSET, Y_OFFSET, PIECE_RADIUS);
 
     ctx.beginPath();
     ctx.lineWidth = LWIDTH;
-    ctx.rect(OFFSET, OFFSET, width - 2 * OFFSET, width - 2 * OFFSET);
-    ctx.rect(OFFSET + GAP, OFFSET + GAP, width - 2 * OFFSET - 2 * GAP, width - 2 * OFFSET - 2 * GAP);
-    ctx.rect(OFFSET + 2 * GAP, OFFSET + 2 * GAP, width - 2 * OFFSET - 4 * GAP, width - 2 * OFFSET - 4 * GAP);
-    ctx.moveTo(width / 2, OFFSET);
-    ctx.lineTo(width / 2, OFFSET + 2 * GAP);
-    ctx.moveTo(width / 2, width - OFFSET);
-    ctx.lineTo(width / 2, width - OFFSET - 2 * GAP);
-    ctx.moveTo(OFFSET, width / 2);
-    ctx.lineTo(OFFSET + 2 * GAP, width / 2);
-    ctx.moveTo(width - OFFSET, width / 2);
-    ctx.lineTo(width - OFFSET - 2 * GAP, width / 2);
+    ctx.rect(PADDING + X_OFFSET, Y_OFFSET + PADDING, width - 2 * PADDING, width - 2 * PADDING);
+    ctx.rect(PADDING + X_OFFSET + GAP, Y_OFFSET + PADDING + GAP, width - 2 * PADDING - 2 * GAP, width - 2 * PADDING - 2 * GAP);
+    ctx.rect(PADDING + X_OFFSET + 2 * GAP, Y_OFFSET + PADDING + 2 * GAP, width - 2 * PADDING - 4 * GAP, width - 2 * PADDING - 4 * GAP);
+    ctx.moveTo(X_OFFSET + width / 2, Y_OFFSET + PADDING);
+    ctx.lineTo(X_OFFSET + width / 2, Y_OFFSET + PADDING + 2 * GAP);
+    ctx.moveTo(X_OFFSET + width / 2, Y_OFFSET + width - PADDING);
+    ctx.lineTo(X_OFFSET + width / 2, Y_OFFSET + width - PADDING - 2 * GAP);
+    ctx.moveTo(PADDING + X_OFFSET, Y_OFFSET + width / 2);
+    ctx.lineTo(PADDING + X_OFFSET + 2 * GAP, Y_OFFSET + width / 2);
+    ctx.moveTo(X_OFFSET + width - PADDING, Y_OFFSET + width / 2);
+    ctx.lineTo(X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + width / 2);
     ctx.stroke();
 
-    drawCircle(ctx, OFFSET, OFFSET, RADIUS, BLACK);
-    drawCircle(ctx, width / 2, OFFSET, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET, OFFSET, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + PADDING, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + PADDING, RADIUS, BLACK);
 
-    drawCircle(ctx, OFFSET + GAP, OFFSET + GAP, RADIUS, BLACK);
-    drawCircle(ctx, width / 2, OFFSET + GAP, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET - GAP, OFFSET + GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + PADDING + GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING + GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + PADDING + GAP, RADIUS, BLACK);
 
-    drawCircle(ctx, OFFSET + 2 * GAP, OFFSET + 2 * GAP, RADIUS, BLACK);
-    drawCircle(ctx, width / 2, OFFSET + 2 * GAP, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET - 2 * GAP, OFFSET + 2 * GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + PADDING + 2 * GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING + 2 * GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + PADDING + 2 * GAP, RADIUS, BLACK);
 
-    drawCircle(ctx, OFFSET, width / 2, RADIUS, BLACK);
-    drawCircle(ctx, OFFSET + GAP, width / 2, RADIUS, BLACK);
-    drawCircle(ctx, OFFSET + 2 * GAP, width / 2, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET, width / 2, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET - GAP, width / 2, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET - 2 * GAP, width / 2, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + width / 2, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + width / 2, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + width / 2, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + width / 2, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + width / 2, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + width / 2, RADIUS, BLACK);
 
-    drawCircle(ctx, OFFSET + 2 * GAP, width - OFFSET - 2 * GAP, RADIUS, BLACK);
-    drawCircle(ctx, width / 2, width - OFFSET - 2 * GAP, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET - 2 * GAP, width - OFFSET - 2 * GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, BLACK);
 
-    drawCircle(ctx, OFFSET + GAP, width - OFFSET - GAP, RADIUS, BLACK);
-    drawCircle(ctx, width / 2, width - OFFSET - GAP, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET - GAP, width - OFFSET - GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + width - PADDING - GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING - GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + width - PADDING - GAP, RADIUS, BLACK);
 
-    drawCircle(ctx, OFFSET, width - OFFSET, RADIUS, BLACK);
-    drawCircle(ctx, width / 2, width - OFFSET, RADIUS, BLACK);
-    drawCircle(ctx, width - OFFSET, width - OFFSET, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + width - PADDING, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + width - PADDING, RADIUS, BLACK);
 }
 
 function drawCircle(ctx, x, y, radius, c) {
@@ -70,37 +73,37 @@ function drawCircle(ctx, x, y, radius, c) {
     ctx.stroke();
 }
 
-function fillCoords(width, offset, gap, radius) {
+function fillCoords(width, padding, gap, x_offset, y_offset, radius) {
     coords = [];
-    var point = new Point(offset, offset, radius); coords[coords.length] = point;
-    var point = new Point(width / 2, offset, radius); coords[coords.length] = point;
-    var point = new Point(width - offset, offset, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding, y_offset + padding, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width / 2, y_offset + padding, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding, y_offset + padding, radius); coords[coords.length] = point;
 
-    var point = new Point(offset + gap, offset + gap, radius); coords[coords.length] = point;
-    var point = new Point(width / 2, offset + gap, radius); coords[coords.length] = point;
-    var point = new Point(width - offset - gap, offset + gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding + gap, y_offset + padding + gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width / 2, y_offset + padding + gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding - gap, y_offset + padding + gap, radius); coords[coords.length] = point;
 
-    var point = new Point(offset + 2 * gap, offset + 2 * gap, radius); coords[coords.length] = point;
-    var point = new Point(width / 2, offset + 2 * gap, radius); coords[coords.length] = point;
-    var point = new Point(width - offset - 2 * gap, offset + 2 * gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding + 2 * gap, y_offset + padding + 2 * gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width / 2, y_offset + padding + 2 * gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding - 2 * gap, y_offset + padding + 2 * gap, radius); coords[coords.length] = point;
 
-    var point = new Point(offset, width / 2, radius); coords[coords.length] = point;
-    var point = new Point(offset + gap, width / 2, radius); coords[coords.length] = point;
-    var point = new Point(offset + 2 * gap, width / 2, radius); coords[coords.length] = point;
-    var point = new Point(width - offset, width / 2, radius); coords[coords.length] = point;
-    var point = new Point(width - offset - gap, width / 2, radius); coords[coords.length] = point;
-    var point = new Point(width - offset - 2 * gap, width / 2, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding, y_offset + width / 2, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding + gap, y_offset + width / 2, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding + 2 * gap, y_offset + width / 2, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding, y_offset + width / 2, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding - gap, y_offset + width / 2, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding - 2 * gap, y_offset + width / 2, radius); coords[coords.length] = point;
 
-    var point = new Point(offset + 2 * gap, width - offset - 2 * gap, radius); coords[coords.length] = point;
-    var point = new Point(width / 2, width - offset - 2 * gap, radius); coords[coords.length] = point;
-    var point = new Point(width - offset - 2 * gap, width - offset - 2 * gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding + 2 * gap, y_offset + width - padding - 2 * gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width / 2, y_offset + width - padding - 2 * gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding - 2 * gap, y_offset + width - padding - 2 * gap, radius); coords[coords.length] = point;
 
-    var point = new Point(offset + gap, width - offset - gap, radius); coords[coords.length] = point;
-    var point = new Point(width / 2, width - offset - gap, radius); coords[coords.length] = point;
-    var point = new Point(width - offset - gap, width - offset - gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding + gap, y_offset + width - padding - gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width / 2, y_offset + width - padding - gap, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding - gap, y_offset + width - padding - gap, radius); coords[coords.length] = point;
 
-    var point = new Point(offset, width - offset, radius); coords[coords.length] = point;
-    var point = new Point(width / 2, width - offset, radius); coords[coords.length] = point;
-    var point = new Point(width - offset, width - offset, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + padding, y_offset + width - padding, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width / 2, y_offset + width - padding, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding, y_offset + width - padding, radius); coords[coords.length] = point;
 }
 

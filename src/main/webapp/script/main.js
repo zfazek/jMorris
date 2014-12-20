@@ -15,11 +15,13 @@ function readyFn() {
     var offsetX = canvasOffset.left;
     var offsetY = canvasOffset.top;
 
-    initTable(table);
-
+    initTable();
     drawBoard(canvas, ctx);
+    printTable(canvas, ctx);
+
     $("#coord").text("");
     $("#canvas").mousedown(function(e) { handleMouseDown(e); });
+    $("#initTable").click({canvas: canvas, ctx: ctx}, handleButtonInitTable);
 
     function handleMouseDown(e){
         var mouseX = parseInt(e.clientX - offsetX);
@@ -68,4 +70,9 @@ function getIdxFromCoord(coords, mx, my) {
 
 function invertFirstPlayerToMove() {
     firstPlayerToMove = firstPlayerToMove == false;
+}
+
+function handleButtonInitTable(e) {
+    initTable();
+    printTable(e.data.canvas, e.data.ctx);
 }

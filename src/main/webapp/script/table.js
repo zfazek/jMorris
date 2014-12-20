@@ -3,7 +3,11 @@ var FIRST = 1;
 var SECOND = 2;
 var BLACK = 3;
 
-function initTable(table) {
+function initTable() {
+    table = [];
+    firstHand = 9;
+    secondHand = 9;
+    firstPlayerToMove = true;
     for (var i = 0; i < 24; i++) {
         table[table.length] = EMPTY;
     }
@@ -18,8 +22,7 @@ function isLegal(idx) {
         return false;
 }
 
-function printTable(canvas, ctx) {
-    drawBoard(canvas, ctx); 
+function drawPieces(ctx) {
     for (var i = 0; i < 24; i++) {
         var p = coords[i];
         if (table[i] == FIRST) {
@@ -28,4 +31,21 @@ function printTable(canvas, ctx) {
             drawCircle(ctx, p.x, p.y, p.r, SECOND);
         }
     }
+}
+
+function drawHands(canvas, ctx) {
+    var padding = 2;
+    var p = coords[0];
+    for (var i = 0; i < firstHand; i++) {
+        drawCircle(ctx, padding + p.r, padding + p.r * (i + 1), p.r, FIRST);
+    }
+    for (var i = 0; i < secondHand; i++) {
+        drawCircle(ctx, canvas.width - p.r - padding, padding + p.r * (i + 1), p.r, SECOND);
+    }
+}
+
+function printTable(canvas, ctx) {
+    drawBoard(canvas, ctx); 
+    drawPieces(ctx);
+    drawHands(canvas, ctx);
 }
