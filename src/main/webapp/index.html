@@ -17,81 +17,21 @@ h1 {
 <head>
 <title>Nine Men's Morris</title>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="script/main.js"></script>
+<script src="script/board.js"></script>
+<script src="script/table.js"></script>
 <script>
-function readyFn() {
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-    drawBoard(canvas, ctx);
-}
-
-function drawBoard(canvas, ctx) {
-    var width = canvas.width;
-    var LWIDTH = 2;
-    var GAP = 50;
-    var OFFSET = 25;
-    var RADIUS = 3;
-    ctx.beginPath();
-    ctx.lineWidth = LWIDTH;
-    ctx.rect(OFFSET, OFFSET, width - 2 * OFFSET, width - 2 * OFFSET);
-    ctx.rect(OFFSET + GAP, OFFSET + GAP, width - 2 * OFFSET - 2 * GAP, width - 2 * OFFSET - 2 * GAP);
-    ctx.rect(OFFSET + 2 * GAP, OFFSET + 2 * GAP, width - 2 * OFFSET - 4 * GAP, width - 2 * OFFSET - 4 * GAP);
-    ctx.moveTo(width / 2, OFFSET);
-    ctx.lineTo(width / 2, OFFSET + 2 * GAP);
-    ctx.moveTo(width / 2, width - OFFSET);
-    ctx.lineTo(width / 2, width - OFFSET - 2 * GAP);
-    ctx.moveTo(OFFSET, width / 2);
-    ctx.lineTo(OFFSET + 2 * GAP, width / 2);
-    ctx.moveTo(width - OFFSET, width / 2);
-    ctx.lineTo(width - OFFSET - 2 * GAP, width / 2);
-    ctx.stroke();
-
-    drawCircle(ctx, OFFSET, OFFSET, RADIUS);
-    drawCircle(ctx, width / 2, OFFSET, RADIUS);
-    drawCircle(ctx, width - OFFSET, OFFSET, RADIUS);
-
-    drawCircle(ctx, OFFSET + GAP, OFFSET + GAP, RADIUS);
-    drawCircle(ctx, width / 2, OFFSET + GAP, RADIUS);
-    drawCircle(ctx, width - OFFSET - GAP, OFFSET + GAP, RADIUS);
-
-    drawCircle(ctx, OFFSET + 2 * GAP, OFFSET + 2 * GAP, RADIUS);
-    drawCircle(ctx, width / 2, OFFSET + 2 * GAP, RADIUS);
-    drawCircle(ctx, width - OFFSET - 2 * GAP, OFFSET + 2 * GAP, RADIUS);
-
-    drawCircle(ctx, OFFSET, width / 2, RADIUS);
-    drawCircle(ctx, OFFSET + GAP, width / 2, RADIUS);
-    drawCircle(ctx, OFFSET + 2 * GAP, width / 2, RADIUS);
-    drawCircle(ctx, width - OFFSET, width / 2, RADIUS);
-    drawCircle(ctx, width - OFFSET - GAP, width / 2, RADIUS);
-    drawCircle(ctx, width - OFFSET - 2 * GAP, width / 2, RADIUS);
-
-    drawCircle(ctx, OFFSET + 2 * GAP, width - OFFSET - 2 * GAP, RADIUS);
-    drawCircle(ctx, width / 2, width - OFFSET - 2 * GAP, RADIUS);
-    drawCircle(ctx, width - OFFSET - 2 * GAP, width - OFFSET - 2 * GAP, RADIUS);
-
-    drawCircle(ctx, OFFSET + GAP, width - OFFSET - GAP, RADIUS);
-    drawCircle(ctx, width / 2, width - OFFSET - GAP, RADIUS);
-    drawCircle(ctx, width - OFFSET - GAP, width - OFFSET - GAP, RADIUS);
-
-    drawCircle(ctx, OFFSET, width - OFFSET, RADIUS);
-    drawCircle(ctx, width / 2, width - OFFSET, RADIUS);
-    drawCircle(ctx, width - OFFSET, width - OFFSET, RADIUS);
-}
-
-function drawCircle(ctx, x, y, radius) {
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.stroke();
-}
-
 $(document).ready(readyFn);
 </script>
 </head>
 
 <body>
 <h1>Nine Men's Morris</h1>
-<canvas id="canvas" width="500" height="500"
-</canvas>
+<canvas id="canvas" width="500" height="500"></canvas>
+<div id="tmp"></div>
+<div id="coord"></div>
+<div id="coords"></div>
+<div id="idx"></div>
 </body>
 </html>
 
