@@ -92,9 +92,9 @@ function fillCoords(width, padding, gap, x_offset, y_offset, radius) {
     var point = new Point(x_offset + padding, y_offset + width / 2, radius); coords[coords.length] = point;
     var point = new Point(x_offset + padding + gap, y_offset + width / 2, radius); coords[coords.length] = point;
     var point = new Point(x_offset + padding + 2 * gap, y_offset + width / 2, radius); coords[coords.length] = point;
-    var point = new Point(x_offset + width - padding, y_offset + width / 2, radius); coords[coords.length] = point;
-    var point = new Point(x_offset + width - padding - gap, y_offset + width / 2, radius); coords[coords.length] = point;
     var point = new Point(x_offset + width - padding - 2 * gap, y_offset + width / 2, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding - gap, y_offset + width / 2, radius); coords[coords.length] = point;
+    var point = new Point(x_offset + width - padding, y_offset + width / 2, radius); coords[coords.length] = point;
 
     var point = new Point(x_offset + padding + 2 * gap, y_offset + width - padding - 2 * gap, radius); coords[coords.length] = point;
     var point = new Point(x_offset + width / 2, y_offset + width - padding - 2 * gap, radius); coords[coords.length] = point;
@@ -142,11 +142,20 @@ function printTable(canvas, ctx) {
     drawHands(canvas, ctx);
 }
 
-function lightPossiblePositions(ctx, idx) {
-    for (var i = 0; i < 24; i++) {
-        if (table[i] == EMPTY) {
-            var p = coords[i];
-            drawCircle(ctx, p.x, p.y, p.r / 2, LIGHT);
+function lightPossiblePositions(canvas, ctx, idx, pos) {
+    var list = [];
+    for (var j = 0; j < legalMoves.length; j++) {
+        var m = legalMoves[j];
+        if (idx == m.x) {
+            if (pos == 2)
+                list[list.length] = m.y;
+            else if (pos == 3 && m.length == pos)
+                list[list.length] = m.z;
         }
+    }
+    printTable(canvas, ctx);
+    for (var i = 0; i < list.length; i++) {
+        var p = coords[list[i]];
+        drawCircle(ctx, p.x, p.y, p.r / 2, LIGHT);
     }
 }

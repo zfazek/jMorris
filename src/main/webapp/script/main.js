@@ -1,7 +1,10 @@
 var whiteToMove = true;
 var whiteHand;
 var blackHand;
-var nofClick = 1;
+var nofClicks;
+var firstClick;
+var secondClick;
+var thirdClick;
 
 // array[24] of Point
 var coords = [];
@@ -35,7 +38,7 @@ function startGame(canvas, ctx) {
     printTable(canvas, ctx);
 }
 
-function handleMouseDown(e){
+function handleMouseDown(e) {
     var canvasOffset = $("#canvas").offset();
     var offsetX = canvasOffset.left;
     var offsetY = canvasOffset.top;
@@ -47,48 +50,136 @@ function handleMouseDown(e){
     if (idx == -1)
         return;
 
+    if (nofClicks == 1) {
+        firstClick = idx;
+    } else if (nofClicks == 2) {
+        secondClick = idx;
+    } else if (nofClicks == 3) {
+        thirdClick = idx;
+    }
+    //printTmp("nofClicks: " + nofClicks + ", idx: " + idx + ", firstClick: " + firstClick + ", secondClick: " + secondClick + ", thirdClick: " + thirdClick);
     legalMoves = [];
     legalMoves = getAllMoves();
-    printTmp(legalMoves.length);
-    
-    if (nofClick == 1) {
-        if ((whiteToMove && whiteHand > 0) || (whiteToMove == false && blackHand > 0)) {
-            if (table[idx] != EMPTY)
-                return;
-            move1(idx);
-            valid = true;
-        } else {
-            if (whiteToMove && table[idx] != WHITE)
-                return;
-            if (whiteToMove == false && table[idx] != BLACK)
-                return;
-            lightPossiblePositions(e.data.ctx, idx);
-            //nofClick = 2;
+    for (var i = 0; i < legalMoves.length; i++) {
+        var m = legalMoves[i];
+        if (m.length == 1) {
+            if (firstClick == m.x && nofClicks == 1) {
+                moveCheck(m, true);
+                moveHistory[moveHistory.length] = m;
+                valid = true;
+                break;
+            } else if (secondClick == m.x && nofClicks == 2) {
+                moveCheck(m, true);
+                moveHistory[moveHistory.length] = m;
+                valid = true;
+                break;
+            }
+        } else if (m.length == 2) {
+            if (nofClicks == 1) {
+                if (firstClick == m.x) {
+                    lightPossiblePositions(e.data.canvas, e.data.ctx, firstClick, 2);
+                    /*
+                    var p = coords[firstClick];
+                    if (whiteToMove)
+                        drawCircle(e.data.ctx, p.x, p.y, p.r, WHITE);
+                    else
+                        drawCircle(e.data.ctx, p.x, p.y, p.r, BLACK);
+                        */
+                    nofClicks = 2;
+                    break;
+                }
+            } else if (nofClicks == 2) {
+                if (firstClick == m.x && secondClick == m.y) {
+                    moveCheck(m, true);
+                    moveHistory[moveHistory.length] = m;
+                    valid = true;
+                    break;
+                } else if (secondClick == m.x) {
+                    firstClick = secondClick;
+                    lightPossiblePositions(e.data.canvas, e.data.ctx, secondClick, 2);
+                    nofClicks = 2;
+                    break;
+                }
+            } else if (nofClicks == 3) {
+                if (thirdClick == m.x) {
+                    firstClick = thirdClick;
+                    lightPossiblePositions(e.data.canvas, e.data.ctx, thirdClick, 2);
+                    nofClicks = 2;
+                    break;
+                }
+            }
+        } else if (m.length == 3) {
+            if (nofClicks == 1) {
+                if (firstClick == m.x) {
+                    lightPossiblePositions(e.data.canvas, e.data.ctx, firstClick, 2);
+                    nofClicks = 2;
+                    break;
+                }
+            } else if (nofClicks == 2) {
+                if (firstClick == m.x && secondClick == m.y) {
+                    lightPossiblePositions(e.data.canvas, e.data.ctx, firstClick, 3);
+                    /*
+                    var p = coords[secondClick];
+                    if (whiteToMove)
+                        drawCircle(e.data.ctx, p.x, p.y, p.r, WHITE);
+                    else
+                        drawCircle(e.data.ctx, p.x, p.y, p.r, BLACK);
+                        */
+                    nofClicks = 3;
+                    break;
+                } else if (secondClick == m.x) {
+                    firstClick = secondClick;
+                    lightPossiblePositions(e.data.canvas, e.data.ctx, secondClick, 2);
+                    nofClicks = 2;
+                    break;
+                }
+            } else if (nofClicks == 3) {
+                if (firstClick == m.x && secondClick == m.y && thirdClick == m.z) {
+                    moveCheck(m, true);
+                    moveHistory[moveHistory.length] = m;
+                    valid = true;
+                    break;
+                }
+            }
         }
-    } else if (nofClick == 2) {
-    } else if (nofClick == 3) {
     }
+
     if (valid) {
-        invertWhitePlayerToMove();
         printTable(e.data.canvas, e.data.ctx);
-        nofClick = 1;
+        var end = isEnd();
+        if (end != 0) {
+            if (end == 1) {
+                alert("White won!");
+            } else {
+                alert("Black won!");
+            }
+        }
+        resetClicks();
     }
+
+    legalMoves = [];
+    legalMoves = getAllMoves();
+    //printTmp("nofClicks: " + nofClicks + ", idx: " + idx + ", firstClick: " + firstClick + ", secondClick: " + secondClick + ", thirdClick: " + thirdClick);
+    //printLegalMoves();
+    //printHistory();
 }
 
-function move1(idx) {
-    var p = coords[idx];
-    var m = new Move(idx, 0, 0, 1, false)
-        if (whiteToMove) {
-            table[idx] = WHITE;
-            moveHistory[moveHistory.length] = m;
-            whiteHand--;
-        }
-        else {
-            table[idx] = BLACK;
-            moveHistory[moveHistory.length] = m;
-            blackHand--;
-        }
-}
+/*
+   function move1(idx) {
+   var p = coords[idx];
+   var m = new Move(1, false, idx, 0, 0)
+   if (whiteToMove) {
+   table[idx] = WHITE;
+   moveHistory[moveHistory.length] = m;
+   whiteHand--;
+   }
+   else {
+   table[idx] = BLACK;
+   moveHistory[moveHistory.length] = m;
+   blackHand--;
+   }
+   }
+   */
 
 function handleButtonUndo(e) {
     if (moveHistory.length == 0)
@@ -96,16 +187,15 @@ function handleButtonUndo(e) {
     moveHistory.splice(moveHistory.length - 1, 1);
     initTable(false);
     for (var i = 0; i < moveHistory.length; i++) {
-        if (whiteToMove) {
-            table[moveHistory[i].x] = WHITE;
-            whiteHand--;
-        } else {
-            table[moveHistory[i].x] = BLACK;
-            blackHand--;
-        }
-        invertWhitePlayerToMove();
+        moveCheck(moveHistory[i], true);
     }
     printTable(e.data.canvas, e.data.ctx);
+    //printHistory();
+
+    legalMoves = [];
+    legalMoves = getAllMoves();
+    //printTmp(legalMoves.length);
+    //printLegalMoves();
 }
 
 function Point(x, y, r) {
@@ -114,7 +204,7 @@ function Point(x, y, r) {
     this.r = r;
 }
 
-function Move(x, y, z, l, c) {
+function Move(l, c, x, y, z) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -142,4 +232,30 @@ function handleButtonInitTable(e) {
 
 function printTmp(str) {
     $("#tmp").html(str);
+}
+
+function printLegalMoves() {
+    var str = "";
+    if (whiteToMove) str += "white<br>"; else str += "black<br>";
+    for (var i = 0; i < legalMoves.length; i++) {
+        var m = legalMoves[i];
+        str += m.x + " " + m.y + " " + m.z + " " + m.length + " " + m.capture + "<br>";
+    }
+    $("#coords").html(str);
+}
+
+function printHistory() {
+    var str = "";
+    for (var i = 0; i < moveHistory.length; i++) {
+        var m = moveHistory[i];
+        str += m.x + " " + m.y + " " + m.z + " " + m.length + " " + m.capture + "<br>";
+    }
+    $("#history").html(str);
+}
+
+function resetClicks() {
+    nofClicks = 1;
+    firstClick = -1;
+    secondClick = -1;
+    thirdClick = -1;
 }

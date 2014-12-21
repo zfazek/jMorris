@@ -3,7 +3,7 @@ var WHITE = 1;
 var BLACK = 2;
 var POINT = 3;
 var LIGHT = 4;
-var N_HAND = 1;
+var N_HAND = 9;
 
 var millHelper = [
     0, 1, 2, 9, 21,
@@ -69,6 +69,7 @@ function initTable(deleteHistory) {
     for (var i = 0; i < 24; i++) {
         table[table.length] = EMPTY;
     }
+    resetClicks();
 }
 
 function getNofPiece(color) {
@@ -88,13 +89,11 @@ function getAllMoves() {
         if (whiteHand > 0) {
             for (var i = 0; i < 24; i++) {
                 if (moveCheck1(i, false) == 0) {
-                    var move = new Move(1, false, i);
-                    moves[moves.length] = move;
+                    moves[moves.length] = new Move(1, false, i);
                 } else {
                     for (var j = 0; j < 24; j++) {
                         if (moveCheck2(i, j, false, n_white, n_black) == 0) {
-                            var move = new Move(2, true, i, j);
-                            moves[moves.length] = move;
+                            moves[moves.length] = new Move(2, true, i, j);
                         }
                     }
                 }
@@ -103,13 +102,11 @@ function getAllMoves() {
             for (var i = 0; i < 24; i++) {
                 for (var j = 0; j < 24; j++) {
                     if (moveCheck2(i, j, false, n_white, n_black) == 0) {
-                        var move = new Move(2, false, i, j);
-                        moves[moves.length] = move;
+                        moves[moves.length] = new Move(2, false, i, j);
                     } else {
                         for (var k = 0; k < 24; k++) {
-                            if (moveCheck2(i, j, k, false, n_white, n_black) == 0) {
-                                var move = new Move(3, true, i, j, k);
-                                moves[moves.length] = move;
+                            if (moveCheck3(i, j, k, false, n_white, n_black) == 0) {
+                                moves[moves.length] = new Move(3, true, i, j, k);
                             }
                         }
                     }
@@ -120,13 +117,11 @@ function getAllMoves() {
         if (blackHand > 0) {
             for (var i = 0; i < 24; i++) {
                 if (moveCheck1(i, false) == 0) {
-                    var move = new Move(1, false, i);
-                    moves[moves.length] = move;
+                    moves[moves.length] = new Move(1, false, i);
                 } else {
                     for (var j = 0; j < 24; j++) {
                         if (moveCheck2(i, j, false, n_white, n_black) == 0) {
-                            var move = new Move(2, true, i, j);
-                            moves[moves.length] = move;
+                            moves[moves.length] = new Move(2, true, i, j);
                         }
                     }
                 }
@@ -135,15 +130,11 @@ function getAllMoves() {
             for (var i = 0; i < 24; i++) {
                 for (var j = 0; j < 24; j++) {
                     if (moveCheck2(i, j, false, n_white, n_black) == 0) {
-                        var move = new Move(2, false, i, j);
-                        moves.push_back(move);
-                        moves[moves.length] = move;
+                        moves[moves.length] = new Move(2, false, i, j);
                     } else {
                         for (var k = 0; k < 24; k++) {
                             if (moveCheck3(i, j, k, false, n_white, n_black) == 0) {
-                                var move = new Move(3, true, i, j, k);
-                                moves.push_back(move);
-                                moves[moves.length] = move;
+                                moves[moves.length] = new Move(3, true, i, j, k);
                             }
                         }
                     }
@@ -154,17 +145,17 @@ function getAllMoves() {
     return moves;
 }
 
-function moveCheck(move, updateHistory) {
+function moveCheck(move, makeMove) {
     if (move.length == 1) {
-        return moveCheck1(move.x, updateHistory);
+        return moveCheck1(move.x, makeMove);
     } else if (move.length == 2) {
         var n_white = getNofPiece(WHITE);
         var n_black = getNofPiece(BLACK);
-        return moveCheck2(move.x, move.y, updateHistory, n_white, n_black);
+        return moveCheck2(move.x, move.y, makeMove, n_white, n_black);
     } else {
         var n_white = getNofPiece(WHITE);
         var n_black = getNofPiece(BLACK);
-        return moveCheck3(move.x, move.y, move.z, updateHistory, n_white, n_black);
+        return moveCheck3(move.x, move.y, move.z, makeMove, n_white, n_black);
     }
 }
 
@@ -334,10 +325,10 @@ function moveCheck3(i1, i2, i3, makeMove, n_white, n_black) {
 }
 
 function isMill(idx, color) {
-    if (table[millHelper[4 * idx + 0]] == color &&
-            table[millHelper[4 * idx + 1]] == color) return true;
-    if (table[millHelper[4 * idx + 2]] == color &&
-            table[millHelper[4 * idx + 3]] == color) return true;
+    if (table[millHelper[5 * idx + 1]] == color &&
+            table[millHelper[5 * idx + 2]] == color) return true;
+    if (table[millHelper[5 * idx + 3]] == color &&
+            table[millHelper[5 * idx + 4]] == color) return true;
     return false;
 }
 
@@ -350,7 +341,7 @@ function isEnd() {
     if (blackHand > 0) return 0;
     if (getNofPiece(WHITE) < 3) return -1;
     if (getNofPiece(BLACK) < 3) return 1;
-    var n_moves = getAllMoves().size();
+    var n_moves = getAllMoves().length;
     if (whiteToMove && n_moves == 0) return -1;
     if (! whiteToMove && n_moves == 0) return 1;
     return 0;
