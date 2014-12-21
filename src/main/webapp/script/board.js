@@ -26,48 +26,48 @@ function drawBoard(canvas, ctx) {
     ctx.lineTo(X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + width / 2);
     ctx.stroke();
 
-    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + PADDING, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + PADDING, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + PADDING, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + PADDING, RADIUS, POINT);
 
-    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + PADDING + GAP, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING + GAP, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + PADDING + GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + PADDING + GAP, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING + GAP, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + PADDING + GAP, RADIUS, POINT);
 
-    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + PADDING + 2 * GAP, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING + 2 * GAP, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + PADDING + 2 * GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + PADDING + 2 * GAP, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + PADDING + 2 * GAP, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + PADDING + 2 * GAP, RADIUS, POINT);
 
-    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + width / 2, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + width / 2, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + width / 2, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + width / 2, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + width / 2, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + width / 2, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + width / 2, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + width / 2, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + width / 2, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + width / 2, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + width / 2, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + width / 2, RADIUS, POINT);
 
-    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + 2 * GAP, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING - 2 * GAP, Y_OFFSET + width - PADDING - 2 * GAP, RADIUS, POINT);
 
-    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + width - PADDING - GAP, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING - GAP, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + width - PADDING - GAP, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING + GAP, Y_OFFSET + width - PADDING - GAP, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING - GAP, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING - GAP, Y_OFFSET + width - PADDING - GAP, RADIUS, POINT);
 
-    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + width - PADDING, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING, RADIUS, BLACK);
-    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + width - PADDING, RADIUS, BLACK);
+    drawCircle(ctx, X_OFFSET + PADDING, Y_OFFSET + width - PADDING, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width / 2, Y_OFFSET + width - PADDING, RADIUS, POINT);
+    drawCircle(ctx, X_OFFSET + width - PADDING, Y_OFFSET + width - PADDING, RADIUS, POINT);
 }
 
 function drawCircle(ctx, x, y, radius, c) {
     var color;
-    if (c == FIRST)
-        color = "#FFFFFF";
-    if (c == SECOND)
-        color = "#222222";
+    if (c == WHITE)
+        color = "#CCCCCC";
     if (c == BLACK)
+        color = "#222222";
+    if (c == POINT)
         color = "#000000";
     if (c == LIGHT)
-        color = "#eeeeee";
+        color = "#009900";
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fillStyle = color;
@@ -109,3 +109,44 @@ function fillCoords(width, padding, gap, x_offset, y_offset, radius) {
     var point = new Point(x_offset + width - padding, y_offset + width - padding, radius); coords[coords.length] = point;
 }
 
+function drawPieces(ctx) {
+    for (var i = 0; i < 24; i++) {
+        var p = coords[i];
+        if (table[i] == WHITE) {
+            drawCircle(ctx, p.x, p.y, p.r, WHITE);
+        } else if (table[i] == BLACK) {
+            drawCircle(ctx, p.x, p.y, p.r, BLACK);
+        }
+    }
+}
+
+function drawHands(canvas, ctx) {
+    var padding = 2;
+    var p = coords[0];
+    for (var i = 0; i < whiteHand; i++) {
+        drawCircle(ctx, padding + p.r, padding + p.r * (i + 1), p.r, WHITE);
+    }
+    for (var i = 0; i < blackHand; i++) {
+        drawCircle(ctx, canvas.width - p.r - padding, padding + p.r * (i + 1), p.r, BLACK);
+    }
+    if (whiteToMove) {
+        drawCircle(ctx, padding + p.r, canvas.height - padding - p.r, p.r, WHITE);
+    } else {
+        drawCircle(ctx, padding + p.r, canvas.height - padding - p.r, p.r, BLACK);
+    }
+}
+
+function printTable(canvas, ctx) {
+    drawBoard(canvas, ctx); 
+    drawPieces(ctx);
+    drawHands(canvas, ctx);
+}
+
+function lightPossiblePositions(ctx, idx) {
+    for (var i = 0; i < 24; i++) {
+        if (table[i] == EMPTY) {
+            var p = coords[i];
+            drawCircle(ctx, p.x, p.y, p.r / 2, LIGHT);
+        }
+    }
+}

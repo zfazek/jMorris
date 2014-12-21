@@ -1,16 +1,21 @@
-var firstPlayerToMove = true;
-var firstHand;
-var secondHand;
+var whiteToMove = true;
+var whiteHand;
+var blackHand;
 var nofClick = 1;
 
 // array[24] of Point
 var coords = [];
 
-// array[24] of pieces (EMPTY, FIRST, SECOND)
+// array[24] of pieces (EMPTY, WHITE, BLACK)
 var table = [];
+
+var mill = [];
 
 // history of Move
 var moveHistory = [];
+
+// legal moves
+var legalMoves = [];
 
 function readyFn() {
     var canvas = document.getElementById("canvas");
@@ -42,16 +47,20 @@ function handleMouseDown(e){
     if (idx == -1)
         return;
 
+    legalMoves = [];
+    legalMoves = getAllMoves();
+    printTmp(legalMoves.length);
+    
     if (nofClick == 1) {
-        if ((firstPlayerToMove && firstHand > 0) || (firstPlayerToMove == false && secondHand > 0)) {
+        if ((whiteToMove && whiteHand > 0) || (whiteToMove == false && blackHand > 0)) {
             if (table[idx] != EMPTY)
                 return;
             move1(idx);
             valid = true;
         } else {
-            if (firstPlayerToMove && table[idx] != FIRST)
+            if (whiteToMove && table[idx] != WHITE)
                 return;
-            if (firstPlayerToMove == false && table[idx] != SECOND)
+            if (whiteToMove == false && table[idx] != BLACK)
                 return;
             lightPossiblePositions(e.data.ctx, idx);
             //nofClick = 2;
@@ -60,7 +69,7 @@ function handleMouseDown(e){
     } else if (nofClick == 3) {
     }
     if (valid) {
-        invertFirstPlayerToMove();
+        invertWhitePlayerToMove();
         printTable(e.data.canvas, e.data.ctx);
         nofClick = 1;
     }
@@ -69,15 +78,15 @@ function handleMouseDown(e){
 function move1(idx) {
     var p = coords[idx];
     var m = new Move(idx, 0, 0, 1, false)
-        if (firstPlayerToMove) {
-            table[idx] = FIRST;
+        if (whiteToMove) {
+            table[idx] = WHITE;
             moveHistory[moveHistory.length] = m;
-            firstHand--;
+            whiteHand--;
         }
         else {
-            table[idx] = SECOND;
+            table[idx] = BLACK;
             moveHistory[moveHistory.length] = m;
-            secondHand--;
+            blackHand--;
         }
 }
 
@@ -87,14 +96,14 @@ function handleButtonUndo(e) {
     moveHistory.splice(moveHistory.length - 1, 1);
     initTable(false);
     for (var i = 0; i < moveHistory.length; i++) {
-        if (firstPlayerToMove) {
-            table[moveHistory[i].x] = FIRST;
-            firstHand--;
+        if (whiteToMove) {
+            table[moveHistory[i].x] = WHITE;
+            whiteHand--;
         } else {
-            table[moveHistory[i].x] = SECOND;
-            secondHand--;
+            table[moveHistory[i].x] = BLACK;
+            blackHand--;
         }
-        invertFirstPlayerToMove();
+        invertWhitePlayerToMove();
     }
     printTable(e.data.canvas, e.data.ctx);
 }
@@ -122,8 +131,8 @@ function getIdxFromCoord(mx, my) {
     return -1;
 }
 
-function invertFirstPlayerToMove() {
-    firstPlayerToMove = firstPlayerToMove == false;
+function invertWhitePlayerToMove() {
+    whiteToMove = whiteToMove == false;
 }
 
 function handleButtonInitTable(e) {
