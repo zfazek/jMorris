@@ -42,8 +42,8 @@ function handleMouseDown(e) {
     var canvasOffset = $("#canvas").offset();
     var offsetX = canvasOffset.left;
     var offsetY = canvasOffset.top;
-    var mouseX = parseInt(e.clientX - offsetX);
-    var mouseY = parseInt(e.clientY - offsetY);
+    var mouseX = parseInt(e.pageX - offsetX);
+    var mouseY = parseInt(e.pageY - offsetY);
 
     var valid = false;
     var idx = getIdxFromCoord(mouseX, mouseY);
