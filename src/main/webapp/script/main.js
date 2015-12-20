@@ -1,3 +1,4 @@
+var thinking = false;
 var whiteToMove = true;
 var whiteHand;
 var blackHand;
@@ -26,8 +27,9 @@ function readyFn() {
 
     $("#coord").text("");
     $("#canvas").mousedown({canvas: canvas, ctx: ctx}, handleMouseDown);
-    $("#initTable").click({canvas: canvas, ctx: ctx}, handleButtonInitTable);
-    $("#undo").click({canvas: canvas, ctx: ctx}, handleButtonUndo);
+    $("#initTable_button").click({canvas: canvas, ctx: ctx}, handleButtonInitTable);
+    $("#undo_button").click({canvas: canvas, ctx: ctx}, handleButtonUndo);
+    $("#move_button").click({event: event, canvas: canvas, ctx: ctx}, makeComputerMove);
 
     startGame(canvas, ctx);
 }
@@ -39,11 +41,15 @@ function startGame(canvas, ctx) {
 }
 
 function handleMouseDown(e) {
+    if (thinking) {
+        return;
+    }
     var canvasOffset = $("#canvas").offset();
     var offsetX = canvasOffset.left;
     var offsetY = canvasOffset.top;
     var mouseX = parseInt(e.pageX - offsetX);
     var mouseY = parseInt(e.pageY - offsetY);
+    var number_of_players = $("#players input[name=players]:checked").val();
 
     var valid = false;
     var idx = getIdxFromCoord(mouseX, mouseY);
@@ -57,6 +63,7 @@ function handleMouseDown(e) {
     } else if (nofClicks == 3) {
         thirdClick = idx;
     }
+    //printTmp(number_of_players);
     //printTmp("nofClicks: " + nofClicks + ", idx: " + idx + ", firstClick: " + firstClick + ", secondClick: " + secondClick + ", thirdClick: " + thirdClick);
     legalMoves = [];
     legalMoves = getAllMoves();
@@ -78,13 +85,6 @@ function handleMouseDown(e) {
             if (nofClicks == 1) {
                 if (firstClick == m.x) {
                     lightPossiblePositions(e.data.canvas, e.data.ctx, firstClick, 2);
-                    /*
-                    var p = coords[firstClick];
-                    if (whiteToMove)
-                        drawCircle(e.data.ctx, p.x, p.y, p.r, WHITE);
-                    else
-                        drawCircle(e.data.ctx, p.x, p.y, p.r, BLACK);
-                        */
                     nofClicks = 2;
                     break;
                 }
@@ -118,13 +118,6 @@ function handleMouseDown(e) {
             } else if (nofClicks == 2) {
                 if (firstClick == m.x && secondClick == m.y) {
                     lightPossiblePositions(e.data.canvas, e.data.ctx, firstClick, 3);
-                    /*
-                    var p = coords[secondClick];
-                    if (whiteToMove)
-                        drawCircle(e.data.ctx, p.x, p.y, p.r, WHITE);
-                    else
-                        drawCircle(e.data.ctx, p.x, p.y, p.r, BLACK);
-                        */
                     nofClicks = 3;
                     break;
                 } else if (secondClick == m.x) {
@@ -145,6 +138,7 @@ function handleMouseDown(e) {
     }
 
     if (valid) {
+        resetClicks();
         printTable(e.data.canvas, e.data.ctx);
         var end = isEnd();
         if (end != 0) {
@@ -153,8 +147,9 @@ function handleMouseDown(e) {
             } else {
                 alert("Black won!");
             }
+        } else if (number_of_players == "computer"){
+            makeComputerMove(e);
         }
-        resetClicks();
     }
 
     legalMoves = [];
@@ -180,6 +175,56 @@ function handleMouseDown(e) {
    }
    }
    */
+
+function generatePositionJsonString() {
+    var ret = "{\"table\":[";
+            for (var i = 0; i < table.length; i++) {
+                ret += table[i];
+                if (i < table.length - 1) {
+                    ret += ", ";
+                }
+            }
+            ret += "]";
+        ret += ",\"white_hand\":" + whiteHand + ",\"black_hand\":" + blackHand;
+        ret += ",\"white_to_move\":" + whiteToMove;
+        ret += "}"
+    return ret;
+}
+
+function makeComputerMove(e) {
+    thinking = true;
+    $('html,body').css('cursor','progress');
+    var pos = generatePositionJsonString();
+    printTmp("Thinking...");
+    $.ajax({
+            url: "/cgi-bin/jmorris.cgi",
+            type: "post",
+            data: "position=" + pos,
+            success: function(data) {
+                var computer_move = JSON.parse(data);
+                var move = new Move(
+                    computer_move.length,
+                    computer_move.capture,
+                    computer_move.x,
+                    computer_move.y,
+                    computer_move.z);
+                moveCheck(move, true);
+                moveHistory[moveHistory.length] = move;
+                printTable(e.data.canvas, e.data.ctx);
+                $('html,body').css('cursor','default');
+                printTmp("");
+                thinking = false;
+                var end = isEnd();
+                if (end != 0) {
+                    if (end == 1) {
+                        alert("White won!");
+                    } else {
+                        alert("Black won!");
+                    }
+                }
+            }
+    });
+}
 
 function handleButtonUndo(e) {
     if (moveHistory.length == 0)
@@ -228,6 +273,7 @@ function invertWhitePlayerToMove() {
 function handleButtonInitTable(e) {
     initTable(true);
     printTable(e.data.canvas, e.data.ctx);
+    printTmp("");
 }
 
 function printTmp(str) {

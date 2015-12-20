@@ -15,7 +15,11 @@ h1, #buttons {
 
 <head>
 <title>Nine Men's Morris</title>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+-->
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="script/main.js"></script>
 <script src="script/board.js"></script>
 <script src="script/table.js"></script>
@@ -27,10 +31,15 @@ $(document).ready(readyFn);
 <body>
 <h1>Nine Men's Morris</h1>
 <div id="buttons">
-    <button id="initTable">Start New Game</button>
-    <button id="undo">Undo</button>
-    <br>
-    <br>
+    <form id="players">
+    <input type="radio" name="players" value="computer" checked>Against Computer
+    <input type="radio" name="players" value="2 players">Against Human
+    </form>
+    <p>
+    <button id="initTable_button">Start New Game</button>
+    <button id="undo_button">Undo</button>
+    <button id="move_button">Move Computer</button>
+    <p>
 </div>
 <canvas id="canvas" width="600" height="400"></canvas>
 <div id="idx"></div>

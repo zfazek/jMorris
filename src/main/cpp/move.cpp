@@ -152,6 +152,22 @@ Move Move::getMove(const string &input) {
     return move;
 }
 
+string Move::toJson() const {
+    string ret = "{";
+    ret += "\"x\":" + to_string(x);
+    ret += ",\"y\":" + to_string(y);
+    ret += ",\"z\":" + to_string(z);
+    ret += ",\"length\":" + to_string(length);
+    ret += ",\"capture\":";
+    if (capture) {
+        ret += "true";
+    } else {
+        ret += "false";
+    }
+    ret += "}";
+    return ret;
+}
+
 string Move::toString() const {
     if (length == 1) {
         char c = coordHelper[x * 3 + 2] + 'a';

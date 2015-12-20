@@ -158,7 +158,7 @@ void Mill::setBestMoveMCTS() {
     for (Table* table : tables) {
         delete table;
     }
-    bestMoveStr =  bestMove.toString();
+    bestMoveStr =  bestMove.toJson();
     thinking = false;
 }
 

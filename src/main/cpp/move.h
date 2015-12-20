@@ -26,6 +26,7 @@ struct Move {
     }
 
     std::string toString() const;
+    std::string toJson() const;
     static Move getMove(const std::string &move);
     static int getIdx(int x, int y);
 };
