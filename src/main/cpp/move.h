@@ -17,6 +17,40 @@ struct Move {
     Move(int length, bool capture, int x, int y, int z);
     ~Move();
 
+    Move(const Move &other) {
+        length = other.length;
+        capture = other.capture;
+        x = other.x;
+        y = other.y;
+        z = other.z;
+    }
+
+    Move(const Move &&other) {
+        length = other.length;
+        capture = other.capture;
+        x = other.x;
+        y = other.y;
+        z = other.z;
+    }
+
+    Move& operator=(const Move &other) {
+        length = other.length;
+        capture = other.capture;
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        return *this;
+    }
+
+    Move& operator=(const Move &&other) {
+        length = other.length;
+        capture = other.capture;
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        return *this;
+    }
+
     bool operator==(const Move &other) const {
         return x == other.x &&
             y == other.y &&

@@ -382,12 +382,12 @@ vector<Move> Table::getAllMoves() {
             for (int i = 0; i < 24; i++) {
                 if (moveCheck(i, false) == 0) {
                     Move move(1, false, i);
-                    moves.push_back(move);
+                    moves.push_back(std::move(move));
                 } else {
                     for (int j = 0; j < 24; j++) {
                         if (moveCheck(i, j, false, n_white, n_black) == 0) {
                             Move move(2, true, i, j);
-                            moves.push_back(move);
+                            moves.push_back(std::move(move));
                         }
                     }
                 }
@@ -397,12 +397,12 @@ vector<Move> Table::getAllMoves() {
                 for (int j = 0; j < 24; j++) {
                     if (moveCheck(i, j, false, n_white, n_black) == 0) {
                         Move move(2, false, i, j);
-                        moves.push_back(move);
+                        moves.push_back(std::move(move));
                     } else {
                         for (int k = 0; k < 24; k++) {
                             if (moveCheck(i, j, k, false, n_white, n_black) == 0) {
                                 Move move(3, true, i, j, k);
-                                moves.push_back(move);
+                                moves.push_back(std::move(move));
                             }
                         }
                     }
@@ -414,12 +414,12 @@ vector<Move> Table::getAllMoves() {
             for (int i = 0; i < 24; i++) {
                 if (moveCheck(i, false) == 0) {
                     Move move(1, false, i);
-                    moves.push_back(move);
+                    moves.push_back(std::move(move));
                 } else {
                     for (int j = 0; j < 24; j++) {
                         if (moveCheck(i, j, false, n_white, n_black) == 0) {
                             Move move(2, true, i, j);
-                            moves.push_back(move);
+                            moves.push_back(std::move(move));
                         }
                     }
                 }
@@ -429,12 +429,12 @@ vector<Move> Table::getAllMoves() {
                 for (int j = 0; j < 24; j++) {
                     if (moveCheck(i, j, false, n_white, n_black) == 0) {
                         Move move(2, false, i, j);
-                        moves.push_back(move);
+                        moves.push_back(std::move(move));
                     } else {
                         for (int k = 0; k < 24; k++) {
                             if (moveCheck(i, j, k, false, n_white, n_black) == 0) {
                                 Move move(3, true, i, j, k);
-                                moves.push_back(move);
+                                moves.push_back(std::move(move));
                             }
                         }
                     }
